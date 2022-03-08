@@ -6,6 +6,7 @@
 {
   docker exec php__1 bash -ce "cd /data/site_projects/php__1/site_projects/laravel-taling-test/ ; git pull origin master"
   docker exec php__1 bash -ce "cd /data/site_projects/php__1/site_projects/laravel-taling-test/ ; composer install"
+  docker exec php__1 bash -ce "cd /data/site_projects/php__1/site_projects/laravel-taling-test/ ; php artisan migrate"
   docker exec php__1 bash -ce "cd /data/site_projects/php__1/site_projects/laravel-taling-test/ ; php artisan test"
 } || {
   exit 1
