@@ -123,12 +123,11 @@
                     ...products.data.map(product => product['display_name']),
                     ...products.data.map(product => product['description']),
 
-                    // 중복제거
-                    ...Array.from(new Set(products.data.map(product => product['market']['name']))),
-                    ...Array.from(new Set(products.data.map(product => product['category']['name']))),
+                    ...products.data.map(product => product['market']['name']),
+                    ...products.data.map(product => product['category']['name']),
                 ];
 
-                return process(data);
+                return process(Array.from(new Set(data)));
             });
         }
     });
