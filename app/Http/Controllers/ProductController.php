@@ -100,9 +100,23 @@ class ProductController extends Controller
         $product = $this->service->findBySerialNumber($serialNumber);
         $this->authorize('update', $product);
 
+        $dto = DataTransferObject::map(StoreDto::class, $request->all());
         $productSerialNumber = $this->service->update(
-            DataTransferObject::map(StoreDto::class, $request->all()),
+            $dto,
             $product
+        );
+
+        $this->dispatcher->dispatch(
+            new ProductAdded(
+                $productSerialNumber,
+                $dto->getName(),
+                $dto->getDisplayName(),
+                $dto->getDescription(),
+                $this->service->getMarkName($dto->getMarketId()),
+                $this->service->getCategoryName($dto->getCategoryId()),
+                $dto->getPrice(),
+                $dto->getSalePrice(),
+            )
         );
 
         Notify::success('상품을 수정하였습니다.', 'Success');
