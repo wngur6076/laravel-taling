@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Foundation\ElasticsearchClient;
 use App\Models\DataTransferObjectMapper\DataTransferObjectMapper;
 use App\Models\DataTransferObjectMapper\JsonDataTransferObjectMapper;
 use App\Models\NotifyMessage\IzitoastNotifyMessage;
@@ -20,7 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(ElasticsearchClient::class, function ($app) {
+            $config = $app['config']->get('elasticsearch');
+            return new ElasticsearchClient($config['hosts']);
+        });
     }
 
     /**

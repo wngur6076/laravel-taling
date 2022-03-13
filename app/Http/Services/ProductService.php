@@ -26,7 +26,7 @@ class ProductService
             $query = $query->where('display_name', 'like', '%'.$request->getKeyword().'%');
         }
 
-        return $query->with('market')->latest()->paginate(8);
+        return $query->with(['market', 'category'])->latest()->paginate(8);
     }
 
     public function store(StoreRequest $request)
@@ -89,5 +89,33 @@ class ProductService
     public function getProductModel()
     {
         return Product::class;
+    }
+
+    public function findMark($marketId)
+    {
+        return Market::findOrFail($marketId);
+    }
+
+    public function findCategory($categoryId)
+    {
+        return Category::findOrFail($categoryId);
+    }
+
+    public function getMarkName($marketId)
+    {
+        return $this->findMark($marketId)->name;
+    }
+
+    public function getCategoryName($categoryId)
+    {
+        return $this->findCategory($categoryId)->name;
+    }
+
+    public function getProductsBySerialNumberList($productSerialNumbers)
+    {
+        return Product::with(['market', 'category'])
+            ->whereIn('serial_number', $productSerialNumbers)
+            ->latest()
+            ->paginate(8);
     }
 }

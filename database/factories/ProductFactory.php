@@ -21,10 +21,10 @@ class ProductFactory extends Factory
         ->toArray();
 
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->city(),
             'serial_number' => ProductNumber::generate(),
-            'display_name' => $this->faker->name(),
-            'description' => $this->faker->text(100),
+            'display_name' => $this->faker->city() . $this->faker->streetName(),
+            'description' => $this->faker->realText(100),
             'price' => $this->faker->numberBetween(10000, 50000),
             'sale_price' => $this->faker->numberBetween(1000, 9999),
             'review_point' => $this->faker->randomFloat(1, 0, 5),

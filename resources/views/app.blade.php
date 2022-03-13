@@ -12,6 +12,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script src="{{ asset('js/iziToast.js') }}"></script>
 </head>
 
@@ -84,7 +85,7 @@
                         @if (Route::is('products.index') && $request->getCategory())
                         <input type="hidden" name="category" value="{{ $request->getCategory() }}">
                         @endif
-                        <input class="form-control me-2" type="search" name="keyword" placeholder="상품명을 입력해주세요."
+                        <input class="form-control me-2" id="product-search" type="search" name="keyword" placeholder="검색어를 입력해주세요."
                             aria-label="Search" required>
                         <button class="btn btn-outline-success t-whitespace-nowrap" type="submit">검색</button>
                     </form>
@@ -108,3 +109,27 @@
 </body>
 
 </html>
+
+<script>
+    const route = "{{ url('autocomplete-search') }}";
+
+    $('#product-search').typeahead({
+
+        source: function (keyword, process) {
+            return $.get(route, { keyword: keyword }, function (products) {
+                console.log(products.data)
+                const data = [
+                    ...products.data.map(product => product['name']),
+                    ...products.data.map(product => product['display_name']),
+                    ...products.data.map(product => product['description']),
+
+                    // 중복제거
+                    ...Array.from(new Set(products.data.map(product => product['market']['name']))),
+                    ...Array.from(new Set(products.data.map(product => product['category']['name']))),
+                ];
+
+                return process(data);
+            });
+        }
+    });
+</script>

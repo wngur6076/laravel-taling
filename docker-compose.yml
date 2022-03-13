@@ -15,8 +15,8 @@ services:
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            XDEBUG_MODE: 'debug'
+            XDEBUG_CONFIG: 'client_host=host.docker.internal client_port=9009 start_with_request=yes'
         volumes:
             - '.:/var/www/html'
         networks:
@@ -42,6 +42,40 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+
+    elasticsearch:
+        build: ./docker/elasticsearch
+        volumes:
+            - ./docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+            - ./docker/elasticsearch/config/dict.txt:/usr/share/elasticsearch/config/dict.txt
+            - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
+        environment:
+            - TZ=Asia/Seoul
+            - ELASTIC_PASSWORD=elasticpassword
+            - node.name=elasticsearch
+            - bootstrap.memory_lock=true
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        ports:
+            - '9200:9200'
+        networks:
+            - sail
+    kibana:
+        build: ./docker/kibana
+        environment:
+            - TZ=Asia/Seoul
+        volumes:
+            - ./docker/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+        ports:
+            - "5601:5601" ## 키바나의 기본포트는 5601 이다.
+        networks:
+            - sail
+        depends_on:
+            - elasticsearch
 networks:
     sail:
         driver: bridge

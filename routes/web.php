@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoritesController;
+use App\Http\Controllers\TypeaheadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +24,7 @@ Route::resource('products', ProductController::class);
 
 Route::post('/products/{serialNumber}/favorites', [ProductFavoritesController::class, 'store'])->name('product-favorites.store');
 Route::delete('/products/{serialNumber}/favorites', [ProductFavoritesController::class, 'destroy'])->name('product-favorites.destroy');
+
+Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
 
 Auth::routes();

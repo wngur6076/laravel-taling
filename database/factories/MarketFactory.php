@@ -15,7 +15,7 @@ class MarketFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->domainWord(),
+            'name' => $this->faker->unique()->company(),
             'site_url' => $this->faker->url(),
             'email' => $this->faker->email(),
             'review_point' => $this->faker->randomFloat(1, 0, 5),
