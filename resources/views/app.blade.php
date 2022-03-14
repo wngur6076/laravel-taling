@@ -114,7 +114,8 @@
     const route = "{{ url('autocomplete-search') }}";
 
     $('#product-search').typeahead({
-
+        dynamic: true,
+        delay: 300,
         source: function (keyword, process) {
             return $.get(route, { keyword: keyword }, function (products) {
                 // console.log(products.data)
