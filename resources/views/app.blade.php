@@ -85,7 +85,7 @@
                         @if (Route::is('products.index') && $request->getCategory())
                         <input type="hidden" name="category" value="{{ $request->getCategory() }}">
                         @endif
-                        <input class="form-control me-2" id="product-search" type="search" name="keyword" placeholder="검색어를 입력해주세요."
+                        <input class="form-control me-2" id="product-search" autocomplete="off" type="search" name="keyword" placeholder="검색어를 입력해주세요."
                             aria-label="Search" required>
                         <button class="btn btn-outline-success t-whitespace-nowrap" type="submit">검색</button>
                     </form>
