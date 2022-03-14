@@ -10,7 +10,7 @@ use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Services\ProductService;
 use App\Requests\Product\IndexRequest as IndexDto;
 use App\Requests\Product\StoreRequest as StoreDto;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller

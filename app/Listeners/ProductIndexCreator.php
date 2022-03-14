@@ -4,10 +4,10 @@ namespace App\Listeners;
 
 use App\Events\ProductAdded;
 use App\Http\Services\Elasticsearch\ProductService;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductIndexCreator
+class ProductIndexCreator implements ShouldQueue
 {
     use InteractsWithQueue;
 
