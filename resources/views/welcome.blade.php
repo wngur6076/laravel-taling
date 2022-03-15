@@ -6,7 +6,6 @@
     <section class="t-flex-grow t-flex t-items-center t-justify-center">
         <span>
             유니콘은 당신의 문제를 해결합니다.
-            테스투
         </span>
     </section>
 @endsection
